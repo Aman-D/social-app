@@ -30,7 +30,9 @@ if (process.env.NODE_ENV == "development") {
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/post", require("./routes/post"));
+app.use("/user", require("./routes/user"));
 
+// Port
 const PORT = process.env.PORT || 5000;
 
 app.listen(
