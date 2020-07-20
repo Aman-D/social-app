@@ -130,10 +130,26 @@ router.get("/all", verify, async (req, res) => {
 });
 
 /**
- * @description Getting a single image file
- * @route /post/images/:filename
+ * @description Get single post
+ * @route /post/:id
  */
-
-router.get("/images/:filename", async (req, res) => {});
+router.get("/:id", verify, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    return res.status(200).json({
+      data: {
+        type: "success",
+        result: post,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      data: {
+        type: "error",
+        error,
+      },
+    });
+  }
+});
 
 module.exports = router;
