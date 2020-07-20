@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const { cloudinary_config } = require("./config/cloudinary");
 const app = express();
 
 // Application Imports
@@ -9,6 +10,9 @@ const connectDB = require("./config/db");
 
 //Config file
 dotenv.config({ path: "./config/config.env" });
+
+// Config Cloudinary
+cloudinary_config();
 
 // Connect to Database
 connectDB();
@@ -25,6 +29,7 @@ if (process.env.NODE_ENV == "development") {
 // Routes
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
+app.use("/post", require("./routes/post"));
 
 const PORT = process.env.PORT || 5000;
 
