@@ -2,6 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const { cloudinary_config } = require("./config/cloudinary");
 const app = express();
 
@@ -20,6 +21,9 @@ connectDB();
 // Body Parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Cors
+app.use(cors());
 
 // Morgan for Logging
 if (process.env.NODE_ENV == "development") {
