@@ -24,20 +24,8 @@ const verify = (req, res, next) => {
         });
       } else {
         const { _id } = payload;
-        console.log(_id);
-        User.findById(_id)
-          .then((user) => {
-            if (user) {
-              req.user = user;
-              next();
-            } else {
-              return res.status(500).json({
-                type: "error",
-                body: "Internal Server Error",
-              });
-            }
-          })
-          .catch((err) => console.log(err));
+        req.user = _id;
+        next();
       }
     });
   }
