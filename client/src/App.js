@@ -1,30 +1,20 @@
 import React from "react";
-import { Router, Location } from "@reach/router";
 import { ThemeProvider } from "@material-ui/core";
-import { Layout } from "./components/index";
-import { AuthPage, DashboardPage, LandingPage, HomePage } from "./pages/index";
-import { theme } from "./theme";
-import "./App.css";
-import UserProvider from "./context-provider/user";
 
+import { theme } from "./theme";
+
+import UserProvider from "./context-provider/user";
+import { BrowserRouter as Router } from "react-router-dom";
+import MainApp from "./MainApp";
 function App() {
   return (
-    <Location>
+    <Router>
       <ThemeProvider theme={theme}>
         <UserProvider>
-          <Layout className="App">
-            <Router>
-              <LandingPage path="/" />
-              <HomePage path="/home" />
-              <DashboardPage path="/profile" />
-            </Router>
-          </Layout>
+          <MainApp />
         </UserProvider>
-        <Router>
-          <AuthPage path="/auth" />
-        </Router>
       </ThemeProvider>
-    </Location>
+    </Router>
   );
 }
 
