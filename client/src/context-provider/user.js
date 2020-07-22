@@ -3,11 +3,7 @@ import { userReducer } from "../reducer/userReducer";
 export const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
-  const [userState, dispatch] = useReducer(userReducer, {
-    profile: null,
-    posts: null,
-  });
-
+  const [userState, dispatch] = useReducer(userReducer, null);
   return (
     <UserContext.Provider value={{ dispatch, user: userState }}>
       {children}
