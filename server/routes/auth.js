@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
 
@@ -78,11 +79,16 @@ router.post("/login", async (req, res) => {
       if (isPasswordCorrect) {
         // create JSON Web Token
         const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET);
+        const posts = await Post.find({ postedBy: user._id }).sort({
+          datePosted: 1,
+        });
         return res.status(200).json({
           data: {
             type: "success",
             message: "Sucessfully signed in",
             token,
+            user,
+            posts,
           },
         });
       } else {
