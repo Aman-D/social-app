@@ -6,7 +6,7 @@ const Post = require("../models/Post");
 
 /**
  * @description User Profile
- * @route /user/profile/view
+ * @route /user/profile
  */
 
 router.get("/profile", verify, async (req, res) => {
@@ -36,7 +36,7 @@ router.get("/profile", verify, async (req, res) => {
 
 /**
  * @description View Other user profile, shows only latest 6 posts
- * @route /user/profile/:id
+ * @route /user/profile/view/:id
  */
 
 router.get("/profile/view/:id", verify, async (req, res) => {

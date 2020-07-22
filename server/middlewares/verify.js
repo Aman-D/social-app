@@ -8,8 +8,10 @@ const verify = (req, res, next) => {
 
   if (!authorization) {
     return res.status(401).json({
-      type: "error",
-      body: "Please login to continue",
+      data: {
+        type: "error",
+        body: "Please login to continue",
+      },
     });
   } else {
     //taking the token part from authorization
@@ -19,8 +21,10 @@ const verify = (req, res, next) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
       if (err) {
         return res.status(401).json({
-          type: "error",
-          body: "Please login to continue",
+          data: {
+            type: "error",
+            body: "Please login to continue",
+          },
         });
       } else {
         const { _id } = payload;
