@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   BottomNavigation,
@@ -12,7 +12,7 @@ import {
   GroupAddTwoTone,
   SettingsTwoTone,
 } from "@material-ui/icons";
-import { navigate, useMatch } from "@reach/router";
+import { useLocation, useRouteMatch, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => {
   console.log(theme);
@@ -30,20 +30,15 @@ const useStyles = makeStyles((theme) => {
   };
 });
 const NavigationBottom = () => {
+  const ex = `\/[a-z]*`;
   const classes = useStyles();
-  const [value, setValue] = useState("home");
-  const match = useMatch("/auth");
-
-  const navigateTo = (value) => {
-    navigate(`/${value}`);
-  };
-
-  useEffect(() => {
-    !match && navigateTo(value);
-  }, [value, match]);
-
+  const location = useLocation();
+  const [value, setValue] = useState(location.pathname.match(ex)[0].slice(1));
+  const match = useRouteMatch("/auth");
+  const history = useHistory();
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    history.push(`/${newValue}`);
   };
 
   return match ? null : (
