@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Button, Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import { navigate } from "@reach/router";
+import { UserContext } from "../context-provider/user";
+import userActionTypes from "../action-type/user";
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => {
   return {
     root: {
@@ -32,7 +34,8 @@ const Form = () => {
     password: "",
     email: "",
   });
-
+  const { dispatch } = useContext(UserContext);
+  const history = useHistory();
   const handelSubmit = async (e) => {
     e.preventDefault();
     const url =
@@ -49,11 +52,15 @@ const Form = () => {
         body: JSON.stringify(signupForm),
       });
 
-      response.json().then((res) => {
+      response.json().then(async (res) => {
         if (formType === "login") {
-          const { token } = res.data;
+          const { token, user, posts } = res.data;
           localStorage.setItem("social-app-user", token);
-          navigate("/home");
+          await dispatch({
+            type: userActionTypes.UPDATE_USER,
+            payload: { profile: user, posts },
+          });
+          history.push("/home");
         }
       });
     } catch (error) {
