@@ -1,7 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { PostList } from "../components/index";
+import { UserContext } from "../context-provider/user";
+import { Grid, Typography } from "@material-ui/core";
 
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginBottom: theme.spacing(10),
+  },
+  bottomText: {
+    textAlign: "center",
+    margin: `${theme.spacing(10)} 0`,
+  },
+}));
 const Home = () => {
-  return <div>Home Page</div>;
+  const [posts, setPosts] = useState(null);
+  const classes = useStyles();
+  const fetchPosts = async () => {
+    try {
+      const token = localStorage.getItem("social-app-user");
+      fetch("http://localhost:5000/post/all", {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then(({ data }) => {
+          if (data.type === "error") {
+            setPosts(null);
+          }
+          if (data.type === "success") {
+            const { posts } = data;
+            setPosts(posts);
+          }
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+      setPosts(null);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+  return posts ? (
+    <Grid className={classes.root}>
+      <PostList posts={posts} />
+      <Typography variant="h5" className={classes.bottomText}>
+        You are all caught up :)
+      </Typography>
+    </Grid>
+  ) : (
+    "loading.........."
+  );
 };
 
 export default Home;
