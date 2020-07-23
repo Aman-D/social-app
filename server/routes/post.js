@@ -11,7 +11,7 @@ const { cloudinary_upload } = require("../config/cloudinary");
  * @description New Post
  * @route /post/new POST
  */
-router.post("/new", verify, upload.single("postImage"), async (req, res) => {
+router.post("/new", [verify, upload.single("postImage")], async (req, res) => {
   // creating a new post
   if (req.file) {
     try {
@@ -20,7 +20,7 @@ router.post("/new", verify, upload.single("postImage"), async (req, res) => {
       const post = new Post({
         description: req.body.description,
         postImage: file_url.url,
-        postedBy: req.user._id,
+        postedBy: req.user,
       }); // create a new Post data
       await post.save(); // save the post
       return res.status(200).json({
@@ -41,7 +41,7 @@ router.post("/new", verify, upload.single("postImage"), async (req, res) => {
     try {
       const post = new Post({
         description: req.body.description,
-        postedBy: req.user._id,
+        postedBy: req.user,
       }); // create a new Post data
       await post.save(); // save the post
       return res.status(200).json({
