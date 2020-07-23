@@ -12,9 +12,11 @@ const Post = require("../models/Post");
 router.get("/profile", verify, async (req, res) => {
   try {
     const user = await User.findById(req.user);
-    const posts = await Post.find({ postedBy: req.user }).sort({
-      datePosted: 1,
-    });
+    const posts = await Post.find({ postedBy: req.user })
+      .populate("postedBy")
+      .sort({
+        datePosted: 1,
+      });
     res.json({
       data: {
         result: {

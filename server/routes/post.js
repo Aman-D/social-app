@@ -111,6 +111,7 @@ router.post("/new", [verify, upload.single("postImage")], async (req, res) => {
 router.get("/all", verify, async (req, res) => {
   const posts = await Post.find({})
     .populate("postedBy", "_id username")
+    .sort({ datePosted: -1 })
     .catch((err) => {
       return res.status(500).json({
         data: {
