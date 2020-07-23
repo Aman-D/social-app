@@ -9,26 +9,28 @@ const UserProvider = ({ children }) => {
   useEffect(() => {
     try {
       const token = localStorage.getItem("social-app-user");
-      fetch("http://localhost:5000/user/profile", {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then(({ data }) => {
-          if (data.result) {
-            dispatch({
-              type: userActionTypes.UPDATE_USER,
-              payload: {
-                profile: data.result.user,
-                posts: data.result.posts,
-              },
-            });
-          } else {
-            console.log(data);
-          }
-        });
+      if (token) {
+        fetch("http://localhost:5000/user/profile", {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+          .then((res) => res.json())
+          .then(({ data }) => {
+            if (data.result) {
+              dispatch({
+                type: userActionTypes.UPDATE_USER,
+                payload: {
+                  profile: data.result.user,
+                  posts: data.result.posts,
+                },
+              });
+            } else {
+              console.log(data);
+            }
+          });
+      }
     } catch (error) {
       console.log(error);
     }
