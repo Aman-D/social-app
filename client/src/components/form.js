@@ -54,13 +54,25 @@ const Form = () => {
 
       response.json().then(async (res) => {
         if (formType === "login") {
-          const { token, user, posts } = res.data;
-          localStorage.setItem("social-app-user", token);
-          await dispatch({
-            type: userActionTypes.UPDATE_USER,
-            payload: { profile: user, posts },
-          });
-          history.push("/home");
+          const {
+            data: { type },
+          } = res;
+
+          if (type === "error") {
+            history.push("/auth");
+          }
+          if (type === "success") {
+            const { token, user, posts } = res.data;
+            localStorage.setItem("social-app-user", token);
+            await dispatch({
+              type: userActionTypes.UPDATE_USER,
+              payload: { profile: user, posts },
+            });
+            history.push("/home");
+          }
+        }
+        if (formType === "signUp") {
+          setFormType("login");
         }
       });
     } catch (error) {
