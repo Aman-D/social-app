@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Grid,
   Paper,
@@ -7,7 +7,7 @@ import {
   Box,
   Typography,
 } from "@material-ui/core";
-import { UserContext } from "../context-provider/user";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -34,10 +34,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
   },
 }));
-const Profile = () => {
+const Profile = ({ profile }) => {
   const classes = useStyles();
-  const { user } = useContext(UserContext);
-  const { profile } = user;
 
   if (!profile) {
     return "Loading.............";

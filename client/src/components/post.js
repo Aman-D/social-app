@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import clsx from "clsx";
+import React, { useState } from "react";
+
 import {
   Card,
   CardHeader,
@@ -11,8 +11,8 @@ import {
   CardActions,
 } from "@material-ui/core";
 import { MoreVert, FavoriteOutlined } from "@material-ui/icons";
+import ChatBubbleOutlineOutlinedIcon from "@material-ui/icons/ChatBubbleOutlineOutlined";
 import { makeStyles } from "@material-ui/core/styles";
-import { UserContext } from "../context-provider/user";
 import moment from "moment";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,48 +35,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Post = () => {
+const Post = ({
+  post: {
+    description,
+    likes,
+    postImage,
+    postedBy: { username },
+    datePosted,
+  },
+}) => {
   const classes = useStyles();
   const [like, setLiked] = useState(false);
-  const { user } = useContext(UserContext);
-
-  return user.posts.map(
-    (
-      { description, likes, postImage, postedBy: { username }, datePosted },
-      index
-    ) => (
-      <Card key={index} className={classes.root}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {username[0]}
-            </Avatar>
-          }
-          title={username}
-          subheader={moment(datePosted).format("dddd Do MMMM, YYYY")}
-        />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {description}
-          </Typography>
-        </CardContent>
-        {postImage ? (
-          <CardMedia image={postImage} className={classes.media} />
-        ) : (
-          ""
-        )}
-        <CardActions disableSpacing>
-          <IconButton
-            aria-label="add to favorites"
-            onClick={() => setLiked(!like)}
-          >
-            <FavoriteOutlined
-              className={like ? classes.like : classes.unLike}
-            />
-          </IconButton>
-        </CardActions>
-      </Card>
-    )
+  return (
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            {username[0]}
+          </Avatar>
+        }
+        title={username}
+        subheader={moment(datePosted).format("dddd Do MMMM, YYYY")}
+      />
+      <CardContent>
+        <Typography variant="body2" color="textSecondary" component="p">
+          {description}
+        </Typography>
+      </CardContent>
+      {postImage ? (
+        <CardMedia image={postImage} className={classes.media} />
+      ) : (
+        ""
+      )}
+      <CardActions disableSpacing>
+        <IconButton
+          aria-label="add to favorites"
+          onClick={() => setLiked(!like)}
+        >
+          <FavoriteOutlined className={like ? classes.like : classes.unLike} />
+        </IconButton>
+        <IconButton>
+          <ChatBubbleOutlineOutlinedIcon />
+        </IconButton>
+      </CardActions>
+    </Card>
   );
 };
 
