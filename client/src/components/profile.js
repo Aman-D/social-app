@@ -6,6 +6,7 @@ import {
   Avatar,
   Box,
   Typography,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +61,11 @@ const Profile = ({ profile }) => {
               </Box>
             </Box>
 
-            <Typography variant="caption">{profile.bio}</Typography>
+            {profile.bio ? (
+              <Typography variant="caption">{profile.bio}</Typography>
+            ) : (
+              <Button color="primary">Add Bio</Button>
+            )}
           </Paper>
         </Grid>
       </Grid>
