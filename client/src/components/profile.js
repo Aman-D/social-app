@@ -46,7 +46,9 @@ const Profile = ({ profile }) => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <Avatar
-              src="https://picsum.photos/200/300"
+              src={
+                profile.image ? profile.image : "https://picsum.photos/200/300"
+              }
               className={classes.profile}
             />
             <Typography variant="h6">{profile.username}</Typography>
@@ -62,7 +64,7 @@ const Profile = ({ profile }) => {
             </Box>
 
             {profile.bio ? (
-              <Typography variant="caption">{profile.bio}</Typography>
+              <Typography variant="subtitle2">{profile.bio}</Typography>
             ) : (
               <Button color="primary">Add Bio</Button>
             )}

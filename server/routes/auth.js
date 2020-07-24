@@ -79,9 +79,11 @@ router.post("/login", async (req, res) => {
       if (isPasswordCorrect) {
         // create JSON Web Token
         const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET);
-        const posts = await Post.find({ postedBy: user._id }).sort({
-          datePosted: 1,
-        });
+        const posts = await Post.find({ postedBy: user._id })
+          .populate("postedBy")
+          .sort({
+            datePosted: 1,
+          });
         return res.status(200).json({
           data: {
             type: "success",

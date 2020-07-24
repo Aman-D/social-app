@@ -14,7 +14,7 @@ module.exports = {
   cloudinary_upload: (file, folder) => {
     return new Promise((resolve, reject) => {
       cloudinary.v2.uploader.upload(file, (err, result) => {
-        if (err) reject(error);
+        if (err) reject(err);
         // Return object
         const cloud_file = {
           url: result.secure_url,
