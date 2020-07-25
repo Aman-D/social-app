@@ -5,6 +5,7 @@ import { theme } from "./theme";
 
 import UserProvider from "./context-provider/user";
 import ToastProvider from "./context-provider/toast";
+import GlobalModalProvider from "./context-provider/global-modal";
 import { BrowserRouter as Router } from "react-router-dom";
 import MainApp from "./MainApp";
 function App() {
@@ -12,9 +13,11 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <UserProvider>
-          <ToastProvider>
-            <MainApp />
-          </ToastProvider>
+          <GlobalModalProvider>
+            <ToastProvider>
+              <MainApp />
+            </ToastProvider>
+          </GlobalModalProvider>
         </UserProvider>
       </ThemeProvider>
     </Router>

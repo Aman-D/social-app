@@ -47,9 +47,6 @@ const ToastProvider = ({ children }) => {
         open={open}
         autoHideDuration={5000}
         onClose={handleClose}
-        TransitionProps={{
-          appear: false,
-        }}
       >
         <Alert onClose={handleClose} severity={toast.type}>
           {toast.message}

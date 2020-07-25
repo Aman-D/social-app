@@ -15,7 +15,7 @@ import {
   SettingsTwoTone,
 } from "@material-ui/icons";
 import { useLocation, useRouteMatch, useHistory } from "react-router-dom";
-import { ToastContext } from "../context-provider/toast";
+import { ModalContext } from "../context-provider/global-modal";
 
 const useStyles = makeStyles((theme) => {
   console.log(theme);
@@ -39,7 +39,7 @@ const NavigationBottom = () => {
   const [value, setValue] = useState(location.pathname.match(ex)[0].slice(1));
   const match = useRouteMatch("/auth");
   const history = useHistory();
-  const { toast } = useContext(ToastContext);
+  const { handleClick } = useContext(ModalContext);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -67,7 +67,7 @@ const NavigationBottom = () => {
           left: "50%",
           transform: "translateX(-50%)",
         }}
-        onClick={() => toast({ type: "success", message: "post created" })}
+        onClick={() => handleClick()}
       >
         <AddBox />
       </Fab>
