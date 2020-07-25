@@ -16,7 +16,7 @@ import {
 } from "@material-ui/icons";
 import { useLocation, useRouteMatch, useHistory } from "react-router-dom";
 import { ModalContext } from "../context-provider/global-modal";
-
+import { NewPost } from "./index";
 const useStyles = makeStyles((theme) => {
   console.log(theme);
   return {
@@ -67,7 +67,7 @@ const NavigationBottom = () => {
           left: "50%",
           transform: "translateX(-50%)",
         }}
-        onClick={() => handleClick()}
+        onClick={() => handleClick(<NewPost />, "New Post")}
       >
         <AddBox />
       </Fab>
