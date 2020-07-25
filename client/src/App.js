@@ -13,11 +13,11 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <UserProvider>
-          <GlobalModalProvider>
-            <ToastProvider>
+          <ToastProvider>
+            <GlobalModalProvider>
               <MainApp />
-            </ToastProvider>
-          </GlobalModalProvider>
+            </GlobalModalProvider>
+          </ToastProvider>
         </UserProvider>
       </ThemeProvider>
     </Router>
