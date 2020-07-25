@@ -7,18 +7,6 @@ const Layout = ({ children, ...rest }) => {
     <Container style={{ minHeight: "100vh" }} {...rest}>
       {children}
       <NavigationBottom />
-      <Fab
-        color="secondary"
-        aria-label="edit"
-        style={{
-          position: "fixed",
-          bottom: "4%",
-          left: "50%",
-          transform: "translateX(-50%)",
-        }}
-      >
-        <AddBox />
-      </Fab>
     </Container>
   );
 };

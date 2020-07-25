@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   BottomNavigation,
   BottomNavigationAction,
   Paper,
 } from "@material-ui/core";
+import { Container, Fab } from "@material-ui/core";
+import { AddBox } from "@material-ui/icons";
 import {
   HomeTwoTone,
   AccountCircleTwoTone,
@@ -13,6 +15,7 @@ import {
   SettingsTwoTone,
 } from "@material-ui/icons";
 import { useLocation, useRouteMatch, useHistory } from "react-router-dom";
+import { ToastContext } from "../context-provider/toast";
 
 const useStyles = makeStyles((theme) => {
   console.log(theme);
@@ -36,6 +39,8 @@ const NavigationBottom = () => {
   const [value, setValue] = useState(location.pathname.match(ex)[0].slice(1));
   const match = useRouteMatch("/auth");
   const history = useHistory();
+  const { toast } = useContext(ToastContext);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     history.push(`/${newValue}`);
@@ -53,6 +58,19 @@ const NavigationBottom = () => {
           icon={<AccountCircleTwoTone />}
         />
       </BottomNavigation>
+      <Fab
+        color="secondary"
+        aria-label="edit"
+        style={{
+          position: "fixed",
+          bottom: "4%",
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}
+        onClick={() => toast({ type: "success", message: "post created" })}
+      >
+        <AddBox />
+      </Fab>
     </Paper>
   );
 };

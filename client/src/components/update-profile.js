@@ -14,6 +14,8 @@ import {
 import { UserContext } from "../context-provider/user";
 import { useHistory } from "react-router-dom";
 import userActionTypes from "../action-type/user";
+import { ToastContext } from "../context-provider/toast";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -65,7 +67,9 @@ const useStyles = makeStyles((theme) => ({
 const UpdateProfile = () => {
   const classes = useStyles();
   const { user, dispatch } = useContext(UserContext);
-  const [profile, setProfile] = useState(user.profile);
+  const { toast } = useContext(ToastContext);
+  const [currentUser, setProfile] = useState(user);
+  const { profile } = currentUser;
   const history = useHistory();
 
   const preview = (file) => {
@@ -73,30 +77,36 @@ const UpdateProfile = () => {
     reader.readAsDataURL(file); //converts file to an url
     reader.onloadend = () => {
       setProfile({
-        ...profile,
-        image: reader.result,
+        ...currentUser,
+        profile: {
+          ...profile,
+          image: reader.result,
+        },
       });
     };
   };
   const handleSubmit = async (e) => {
-    console.log(profile);
     e.preventDefault();
     try {
       const token = localStorage.getItem("social-app-user");
       await fetch("http://localhost:5000/user/profile/update", {
         method: "POST",
-        body: JSON.stringify(profile),
+        body: JSON.stringify(currentUser.profile),
         headers: {
           "Content-type": "application/json",
           authorization: `Bearer ${token}`,
         },
       })
         .then((res) => res.json())
-        .then(({ data: { type, result } }) => {
+        .then(({ data: { type, user } }) => {
           if (type === "success") {
-            dispatch({ type: userActionTypes.UPDATE_USER, payload: result });
+            dispatch({
+              type: userActionTypes.UPDATE_USER,
+              payload: { profile: user, posts: currentUser.posts },
+            });
+            toast({ type, message: "Profile updated" });
           } else {
-            console.log("some error");
+            toast({ type, message: "Please try again later" });
           }
         })
         .catch((error) => console.log(error));
@@ -106,14 +116,18 @@ const UpdateProfile = () => {
   };
   const handleChange = (e) => {
     setProfile({
-      ...profile,
-      [e.target.name]: e.target.value,
+      ...currentUser,
+      profile: {
+        ...profile,
+        [e.target.name]: e.target.value,
+      },
     });
   };
 
   const handleFile = (e) => {
     const file = e.target.files[0];
-    const { type } = file;
+    const { type, size } = file;
+    console.log(Math.round(size / 1024 / 1024));
     if (type === "image/jpeg" || type === "image/png") {
       console.log("Right Format");
     }

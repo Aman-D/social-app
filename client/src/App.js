@@ -4,6 +4,7 @@ import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./theme";
 
 import UserProvider from "./context-provider/user";
+import ToastProvider from "./context-provider/toast";
 import { BrowserRouter as Router } from "react-router-dom";
 import MainApp from "./MainApp";
 function App() {
@@ -11,7 +12,9 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <UserProvider>
-          <MainApp />
+          <ToastProvider>
+            <MainApp />
+          </ToastProvider>
         </UserProvider>
       </ThemeProvider>
     </Router>
