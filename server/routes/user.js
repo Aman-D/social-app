@@ -83,7 +83,7 @@ router.post("/profile/update", verify, async (req, res) => {
     User.findOneAndUpdate(
       { _id: _id },
       { username, email, image: file_url, bio },
-      (err, result) => {
+      async (err, result) => {
         if (err) {
           return res.status(500).json({
             data: {
@@ -92,10 +92,11 @@ router.post("/profile/update", verify, async (req, res) => {
             },
           });
         } else {
+          const user = await User.findById(_id);
           res.status(200).json({
             data: {
               type: "success",
-              result,
+              user,
             },
           });
         }
