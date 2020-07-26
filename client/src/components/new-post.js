@@ -13,6 +13,7 @@ import { Close, PhotoSizeSelectActual } from "@material-ui/icons";
 import moment from "moment";
 import { UserContext } from "../context-provider/user";
 import { ToastContext } from "../context-provider/toast";
+import userActionTypes from "../action-type/user";
 
 const useStyles = makeStyles((theme) => ({
   postBody: {
@@ -64,7 +65,7 @@ const NewPost = () => {
     postImage: "",
   });
 
-  const { user } = useContext(UserContext);
+  const { user, dispatch } = useContext(UserContext);
 
   const handleChange = (e) => {
     setPost({
@@ -113,12 +114,16 @@ const NewPost = () => {
 
       fetch("http://localhost:5000/post/new", requestOptions)
         .then((response) => response.json())
-        .then(({ data: { type, message } }) => {
+        .then(({ data: { type, message, result } }) => {
           if (type === "error") {
             toast({ type: "error", message: "Error! PLease try again later" });
           }
           if (type === "success") {
             toast({ type: "success", message });
+            dispatch({
+              type: userActionTypes.UPDATE_POSTS,
+              payload: { post: result },
+            });
           }
         })
         .catch((error) => console.log("error", error));

@@ -20,16 +20,17 @@ router.post("/new", verify, async (req, res) => {
       file_url = file_url.url;
     }
 
-    const post = new Post({
+    var post = new Post({
       description: req.body.description,
       postImage: file_url,
       postedBy: req.user,
     });
     await post.save();
-
+    post = await Post.findById(post._id).populate("postedBy");
     res.status(200).json({
       data: {
         type: "success",
+        message: "Post created",
         result: post,
       },
     });

@@ -8,6 +8,16 @@ export const userReducer = (state, action) => {
         posts: action.payload.posts,
       };
     }
+    case userActionTypes.UPDATE_PROFILE: {
+      return {
+        ...state,
+        profile: action.payload.profile,
+      };
+    }
+    case userActionTypes.UPDATE_POSTS: {
+      state.posts.unshift(action.payload.post);
+      return state;
+    }
     case userActionTypes.DELETE_USER: {
       return null;
     }

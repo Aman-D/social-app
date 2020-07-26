@@ -8,8 +8,6 @@ import {
   Avatar,
   Box,
   Button,
-  ButtonGroup,
-  TextareaAutosize,
 } from "@material-ui/core";
 import { UserContext } from "../context-provider/user";
 import { useHistory } from "react-router-dom";
@@ -101,8 +99,8 @@ const UpdateProfile = () => {
         .then(({ data: { type, user } }) => {
           if (type === "success") {
             dispatch({
-              type: userActionTypes.UPDATE_USER,
-              payload: { profile: user, posts: currentUser.posts },
+              type: userActionTypes.UPDATE_PROFILE,
+              payload: { profile: user },
             });
             toast({ type, message: "Profile updated" });
           } else {

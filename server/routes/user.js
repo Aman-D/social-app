@@ -16,7 +16,7 @@ router.get("/profile", verify, async (req, res) => {
     const posts = await Post.find({ postedBy: req.user })
       .populate("postedBy")
       .sort({
-        datePosted: 1,
+        datePosted: -1,
       });
     res.json({
       data: {
@@ -74,7 +74,6 @@ router.post("/profile/update", verify, async (req, res) => {
   try {
     const { _id, username, email, image, bio } = req.body;
     var urlIncludes = _.includes(image, "res.cloudinary.com");
-    console.log(urlIncludes);
     var file_url = image;
     if (!urlIncludes && image != "") {
       file_url = await cloudinary_upload(image); // get the file cloud url
