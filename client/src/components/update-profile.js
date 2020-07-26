@@ -15,7 +15,7 @@ import { UserContext } from "../context-provider/user";
 import { useHistory } from "react-router-dom";
 import userActionTypes from "../action-type/user";
 import { ToastContext } from "../context-provider/toast";
-
+import { url } from "../helper/urls";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -89,7 +89,7 @@ const UpdateProfile = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("social-app-user");
-      await fetch("http://localhost:5000/user/profile/update", {
+      await fetch(url.post.updateUser, {
         method: "POST",
         body: JSON.stringify(currentUser.profile),
         headers: {

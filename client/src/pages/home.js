@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { PostList } from "../components/index";
-import { UserContext } from "../context-provider/user";
 import { Grid, Typography } from "@material-ui/core";
-
 import { makeStyles } from "@material-ui/core/styles";
+import { url } from "../helper/urls";
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: theme.spacing(10),
@@ -19,7 +18,7 @@ const Home = () => {
   const fetchPosts = async () => {
     try {
       const token = localStorage.getItem("social-app-user");
-      fetch("http://localhost:5000/post/all", {
+      fetch(url.get.allPost, {
         method: "GET",
         headers: {
           authorization: `Bearer ${token}`,

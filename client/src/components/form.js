@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { UserContext } from "../context-provider/user";
 import userActionTypes from "../action-type/user";
 import { useHistory } from "react-router-dom";
+import { url as URL } from "../helper/urls";
 const useStyles = makeStyles((theme) => {
   return {
     root: {
@@ -38,10 +39,7 @@ const Form = () => {
   const history = useHistory();
   const handelSubmit = async (e) => {
     e.preventDefault();
-    const url =
-      formType === "signUp"
-        ? "http://localhost:5000/auth/signup"
-        : "http://localhost:5000/auth/login";
+    const url = formType === "signUp" ? URL.post.signUp : URL.post.logIn;
 
     try {
       const response = await fetch(url, {
