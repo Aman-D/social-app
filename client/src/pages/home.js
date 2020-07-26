@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { PostList } from "../components/index";
+import { PostList, Spinner } from "../components/index";
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { url } from "../helper/urls";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     marginBottom: theme.spacing(10),
@@ -52,7 +53,7 @@ const Home = () => {
       </Typography>
     </Grid>
   ) : (
-    "loading.........."
+    <Spinner />
   );
 };
 
