@@ -124,6 +124,10 @@ const NewPost = () => {
               type: userActionTypes.UPDATE_POSTS,
               payload: { post: result },
             });
+            setPost({
+              description: "",
+              postImage: "",
+            });
           }
         })
         .catch((error) => console.log("error", error));
