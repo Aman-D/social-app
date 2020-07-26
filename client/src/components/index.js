@@ -8,3 +8,4 @@ export { default as Post } from "./post";
 export { default as UpdateProfile } from "./update-profile";
 export { default as NewPost } from "./new-post";
 export { default as Spinner } from "./spinner";
+export { default as useSearchBox } from "./useSearchBox";

@@ -112,4 +112,58 @@ router.post("/profile/update", verify, async (req, res) => {
   }
 });
 
+/**
+ * @description Recommended users
+ * @route /user/recommend
+ */
+
+router.get("/recommend", verify, async (req, res) => {
+  try {
+    const rec_users = await User.aggregate([
+      {
+        $sample: { size: 3 },
+      },
+    ]);
+    res.status(200).json({
+      data: {
+        type: "success",
+        result: rec_users,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      data: {
+        type: "error",
+        error,
+      },
+    });
+  }
+});
+
+/**
+ * @description Find users based on the search query
+ * @route /user/find
+ */
+
+router.post("/find", verify, async (req, res) => {
+  try {
+    const { user } = req.body;
+    console.log(user);
+    const users = await User.find({ username: user });
+    console.log(users);
+    res.status(200).json({
+      data: {
+        type: "success",
+        users,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      data: {
+        type: "error",
+        message: "No users found",
+      },
+    });
+  }
+});
 module.exports = router;

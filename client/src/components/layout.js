@@ -4,7 +4,7 @@ import { AddBox } from "@material-ui/icons";
 import { NavigationBottom } from "./index";
 const Layout = ({ children, ...rest }) => {
   return (
-    <Container style={{ minHeight: "100vh" }} {...rest}>
+    <Container style={{ minHeight: "100vh", marginTop: 70 }} {...rest}>
       {children}
       <NavigationBottom />
     </Container>

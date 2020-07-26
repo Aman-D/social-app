@@ -6,6 +6,7 @@ import {
   LandingPage,
   HomePage,
   SettingsPage,
+  FindPage,
 } from "./pages/index";
 import { UserContext } from "./context-provider/user";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
@@ -25,6 +26,10 @@ function MainApp() {
         <Route
           path="/profile"
           render={() => (!user ? <Redirect to="/auth" /> : <DashboardPage />)}
+        />
+        <Route
+          path="/search"
+          render={() => (!user ? <Redirect to="/auth" /> : <FindPage />)}
         />
         <Route
           path="/settings/update-profile"
