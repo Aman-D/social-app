@@ -9,3 +9,5 @@ export { default as UpdateProfile } from "./update-profile";
 export { default as NewPost } from "./new-post";
 export { default as Spinner } from "./spinner";
 export { default as useSearchBox } from "./useSearchBox";
+export { default as UserList } from "./user-list";
+export { default as UserCard } from "./user-card";

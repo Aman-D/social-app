@@ -14,6 +14,7 @@ import {
 import { url } from "../helper/urls";
 import { ToastContext } from "../context-provider/toast";
 import { Spinner } from "../components/index";
+import { UserList } from "../components/index";
 const useStyles = makeStyles((theme) => {
   return {
     intro: {
@@ -24,32 +25,10 @@ const useStyles = makeStyles((theme) => {
     recomd: {
       flexDirection: "column",
     },
-    list: {
-      display: "flex",
-      flexWrap: "wrap",
-      paddingTop: theme.spacing(2),
-    },
-    textAvt: {
-      color: theme.palette.getContrastText(theme.palette.secondary.main),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    recmdCard: {
-      padding: theme.spacing(2),
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    },
     searchButton: {
       marginLeft: theme.spacing(1),
       color: theme.palette.getContrastText(theme.palette.common.white),
       backgroundColor: theme.palette.common.white,
-    },
-    searchCard: {
-      padding: theme.spacing(2),
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
     },
   };
 });
@@ -65,7 +44,7 @@ const Find = () => {
     setNavBar(SearchBox);
   }, []);
 
-  const ha = async () => {
+  const handleSubmit = async () => {
     var headers = new Headers();
     const token = localStorage.getItem("social-app-user");
     headers.append("Authorization", `Bearer ${token}`);
@@ -129,7 +108,7 @@ const Find = () => {
             variant="contained"
             color="inherit"
             className={classes.searchButton}
-            onClick={ha}
+            onClick={handleSubmit}
           >
             Search
           </Button>
@@ -144,43 +123,11 @@ const Find = () => {
           {!searchUser ? (
             <Spinner />
           ) : (
-            <>
-              <Typography variant="h6">Search Result</Typography>
-              <Grid
-                container
-                justify="center"
-                spacing={2}
-                className={classes.list}
-              >
-                {searchUser.map(({ username, image }, index) => (
-                  <Grid key={index} item xs={12}>
-                    <Paper className={classes.searchCard}>
-                      {!image ? (
-                        <Avatar className={classes.textAvt}>
-                          {username[0]}
-                        </Avatar>
-                      ) : (
-                        <Avatar src={image} />
-                      )}
-                      <Typography
-                        variant="subtitle2"
-                        style={{ margin: "0 5px" }}
-                      >
-                        {username}
-                      </Typography>
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        size="small"
-                        disableElevation
-                      >
-                        Follow
-                      </Button>
-                    </Paper>
-                  </Grid>
-                ))}
-              </Grid>
-            </>
+            <UserList
+              users={searchUser}
+              title="Search Result"
+              type="horizontal"
+            />
           )}
         </Grid>
       )}
@@ -188,38 +135,7 @@ const Find = () => {
         {!recUsers ? (
           <Spinner />
         ) : (
-          <>
-            <Typography variant="h6">Recommendation</Typography>
-            <Grid
-              container
-              justify="center"
-              spacing={2}
-              className={classes.list}
-            >
-              {recUsers.map(({ username, image }, index) => (
-                <Grid key={index} item xs={4}>
-                  <Paper className={classes.recmdCard}>
-                    {!image ? (
-                      <Avatar className={classes.textAvt}>{username[0]}</Avatar>
-                    ) : (
-                      <Avatar src={image} />
-                    )}
-                    <Typography variant="subtitle2" style={{ margin: "5px 0" }}>
-                      {username}
-                    </Typography>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                      disableElevation
-                    >
-                      Follow
-                    </Button>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-          </>
+          <UserList users={recUsers} title="Recommendation" type="vertical" />
         )}
       </Grid>
     </Grid>
