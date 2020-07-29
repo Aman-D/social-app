@@ -35,7 +35,7 @@ app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
 app.use("/post", require("./routes/post"));
 app.use("/user", require("./routes/user"));
-
+app.use("/user/friend", require("./routes/follow"));
 // Port
 const PORT = process.env.PORT || 5000;
 

@@ -148,7 +148,6 @@ router.get("/recommend", verify, async (req, res) => {
 router.post("/find", verify, async (req, res) => {
   try {
     const { user } = req.body;
-    console.log(user);
     const users = await User.find({ username: user });
     console.log(users);
     res.status(200).json({
