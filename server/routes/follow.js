@@ -1,14 +1,104 @@
 const verify = require("../middlewares/verify");
 const express = require("express");
 const router = express.Router();
+const Followers = require("../models/Follower");
+const Following = require("../models/Following");
+var mongodb = require("mongodb");
+const mongoose = require("mongoose");
 
 /**
  * @description Follow a user
  * @description /user/friend/follow
  */
 
-router.post("/", verify, (req, res) => {
-  res.send("success");
+router.post("/follow", verify, async (req, res) => {
+  const { user } = req.body;
+  try {
+    await Following.updateOne(
+      { user: req.user },
+      { $addToSet: { following: user } },
+      { upsert: true }
+    );
+
+    await Followers.updateOne(
+      { user: user },
+      { $addToSet: { followers: req.user } },
+      { upsert: true }
+    );
+
+    res.status(200).json({
+      data: {
+        type: "success",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      data: {
+        type: "error",
+        message: "No users found",
+      },
+    });
+  }
+});
+
+/**
+ * @description Follow a user
+ * @description /user/friend/unfollow
+ */
+
+router.post("/unfollow", verify, async (req, res) => {
+  const { user } = req.body;
+  try {
+    await Following.updateOne(
+      { user: req.user },
+      { $pull: { following: user } }
+    );
+    await Followers.updateOne(
+      { user: user },
+      { $pull: { followers: req.user } }
+    );
+
+    res.status(200).json({
+      data: {
+        type: "success",
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      data: {
+        type: "error",
+        message: "No users found",
+      },
+    });
+  }
+});
+
+/**
+ * @description Get all the following
+ * @route /user/friend/follow/list
+ */
+
+router.get("/following/list", verify, async (req, res) => {
+  try {
+    const doc = await Following.findOne({ user: req.user });
+    console.log(doc);
+    res.status(200).json({
+      data: {
+        type: "success",
+        following: doc ? doc.following : [],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      data: {
+        type: "error",
+        message: "No users found",
+      },
+    });
+  }
 });
 
 module.exports = router;

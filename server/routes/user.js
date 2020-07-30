@@ -121,7 +121,7 @@ router.get("/recommend", verify, async (req, res) => {
   try {
     const rec_users = await User.aggregate([
       {
-        $sample: { size: 3 },
+        $sample: { size: 10 },
       },
     ]);
     res.status(200).json({
