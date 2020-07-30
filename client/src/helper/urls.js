@@ -4,6 +4,7 @@ export const url = {
     profile: "http://localhost:5000/user/profile",
     allPost: "http://localhost:5000/post/all",
     recommendation: "http://localhost:5000/user/recommend",
+    following: "http://localhost:5000/user/friend/following/list",
   },
   post: {
     newPost: "http://localhost:5000/post/new",
@@ -11,5 +12,7 @@ export const url = {
     signUp: "http://localhost:5000/auth/signup",
     logIn: "http://localhost:5000/auth/login",
     findUser: "http://localhost:5000/user/find",
+    follow: "http://localhost:5000/user/friend/follow",
+    unFollow: "http://localhost:5000/user/friend/unfollow",
   },
 };

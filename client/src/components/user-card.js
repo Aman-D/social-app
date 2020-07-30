@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Typography,
   Grid,
@@ -7,6 +7,9 @@ import {
   Paper,
   Button,
 } from "@material-ui/core";
+import { url } from "../helper/urls";
+import { UserContext } from "../context-provider/user";
+import { includes } from "lodash";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -31,8 +34,49 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const UserCard = ({ user: { _id, username, image }, type }) => {
+const UserCard = ({ user: { _id, username, image }, type, following }) => {
   const classes = useStyles();
+  const { user } = useContext(UserContext);
+  const userId = user.profile["_id"];
+  const [followState, setFollowState] = useState(false);
+
+  useEffect(() => {
+    if (includes(following, _id)) {
+      setFollowState(true);
+    }
+  }, [following]);
+
+  // Return if same user
+  if (userId === _id) return null;
+
+  const followUser = async (props) => {
+    const { user } = props;
+    var headers = new Headers();
+    const token = localStorage.getItem("social-app-user");
+    headers.append("Authorization", `Bearer ${token}`);
+    headers.append("Content-type", "application/json");
+    var reqOptions = {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        user,
+      }),
+    };
+
+    const followUrl = followState ? url.post.unFollow : url.post.follow;
+    await fetch(followUrl, reqOptions)
+      .then((res) => res.json())
+      .then(({ data }) => {
+        if (data.type === "success") {
+          setFollowState(!followState);
+        }
+        if (data.type === "error") {
+          return;
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <Grid item xs={type === "vertical" ? 4 : 12}>
       <Paper
@@ -47,13 +91,14 @@ const UserCard = ({ user: { _id, username, image }, type }) => {
           {username}
         </Typography>
         <Button
-          href={`http://localhost:5000/user/friend/${_id}`}
-          variant="outlined"
+          variant={followState ? "outlined" : "contained"}
           color="secondary"
           size="small"
+          onClick={() => followUser({ user: _id })}
           disableElevation
+          style={{ fontSize: "10px" }}
         >
-          Follow
+          {followState ? "FOLLOWING" : "FOLLOW"}
         </Button>
       </Paper>
     </Grid>

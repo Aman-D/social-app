@@ -127,6 +127,7 @@ const Find = () => {
               users={searchUser}
               title="Search Result"
               type="horizontal"
+              useFFilter={false}
             />
           )}
         </Grid>
@@ -135,7 +136,12 @@ const Find = () => {
         {!recUsers ? (
           <Spinner />
         ) : (
-          <UserList users={recUsers} title="Recommendation" type="vertical" />
+          <UserList
+            useFFilter={true}
+            users={recUsers}
+            title="Recommendation"
+            type="vertical"
+          />
         )}
       </Grid>
     </Grid>
