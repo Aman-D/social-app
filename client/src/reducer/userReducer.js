@@ -6,6 +6,8 @@ export const userReducer = (state, action) => {
       return {
         profile: action.payload.profile,
         posts: action.payload.posts,
+        followers: 0,
+        following: 0,
       };
     }
     case userActionTypes.UPDATE_PROFILE: {
@@ -20,6 +22,13 @@ export const userReducer = (state, action) => {
     }
     case userActionTypes.DELETE_USER: {
       return null;
+    }
+    case userActionTypes.UPDATE_FF: {
+      return {
+        ...state,
+        followers: action.payload.followers,
+        following: action.payload.following,
+      };
     }
     default:
       return state;

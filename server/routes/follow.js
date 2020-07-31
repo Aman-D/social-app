@@ -83,7 +83,6 @@ router.post("/unfollow", verify, async (req, res) => {
 router.get("/following/list", verify, async (req, res) => {
   try {
     const doc = await Following.findOne({ user: req.user });
-    console.log(doc);
     res.status(200).json({
       data: {
         type: "success",
@@ -101,4 +100,29 @@ router.get("/following/list", verify, async (req, res) => {
   }
 });
 
+/**
+ * @description Get Followers/Following count
+ * @route /user/friend/count
+ */
+
+router.get("/count", verify, async (req, res) => {
+  try {
+    const followers = await Followers.findOne({ user: req.user }).count();
+    const following = await Following.findOne({ user: req.user }).count();
+    res.status(200).json({
+      data: {
+        type: "success",
+        followers,
+        following,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      data: {
+        type: "error",
+        message: "No users found",
+      },
+    });
+  }
+});
 module.exports = router;

@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
   },
 }));
-const Profile = ({ profile }) => {
+
+const Profile = ({ profile, followers, following }) => {
   const classes = useStyles();
 
   if (!profile) {
@@ -54,11 +55,11 @@ const Profile = ({ profile }) => {
             <Typography variant="h6">{profile.username}</Typography>
             <Box className={classes.follow}>
               <Box className={classes.followCount}>
-                <Typography variant="subtitle1">0</Typography>
+                <Typography variant="subtitle1">{followers}</Typography>
                 <Typography variant="subtitle2">Followers</Typography>
               </Box>
               <Box className={classes.followCount}>
-                <Typography variant="subtitle1">0</Typography>
+                <Typography variant="subtitle1">{following}</Typography>
                 <Typography variant="subtitle2">Following</Typography>
               </Box>
             </Box>

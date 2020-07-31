@@ -5,6 +5,7 @@ export const url = {
     allPost: "http://localhost:5000/post/all",
     recommendation: "http://localhost:5000/user/recommend",
     following: "http://localhost:5000/user/friend/following/list",
+    ffCount: "http://localhost:5000/user/friend/count",
   },
   post: {
     newPost: "http://localhost:5000/post/new",

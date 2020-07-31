@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Followers = require("../models/Follower");
+const Following = require("../models/Following");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
 
