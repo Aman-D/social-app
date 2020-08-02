@@ -11,3 +11,6 @@ export { default as Spinner } from "./spinner";
 export { default as useSearchBox } from "./useSearchBox";
 export { default as UserList } from "./user-list";
 export { default as UserCard } from "./user-card";
+export { default as NavCam } from "./nav-cam";
+export { default as FaceCam } from "./faceCam";
+export { default as CameraScreen } from "./camera-screen";

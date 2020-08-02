@@ -26,12 +26,13 @@ const GlobalModalProvider = ({ children }) => {
   const [modalChildren, setchildren] = useState({
     component: <h1>I am the modal</h1>,
     title: "Modal",
+    appBar: false,
   });
   const [open, setOpen] = React.useState(false);
 
   const { user } = useContext(UserContext);
-  const handleClick = (component, title) => {
-    setchildren({ component, title });
+  const handleClick = (component, title, appBar) => {
+    setchildren({ component, title, appBar });
     setOpen(true);
   };
 
@@ -40,7 +41,7 @@ const GlobalModalProvider = ({ children }) => {
   };
 
   return (
-    <ModalContext.Provider value={{ handleClick }}>
+    <ModalContext.Provider value={{ handleClick, handleClose }}>
       {children}
       {user && (
         <Dialog

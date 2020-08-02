@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { PostList, Spinner } from "../components/index";
+import React, { useEffect, useState, useContext } from "react";
+import { PostList, Spinner, NavCam } from "../components/index";
 import { Grid, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { url } from "../helper/urls";
+import { NavContext } from "../context-provider/navBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,8 +14,10 @@ const useStyles = makeStyles((theme) => ({
     margin: `${theme.spacing(10)} 0`,
   },
 }));
+
 const Home = () => {
   const [posts, setPosts] = useState(null);
+  const { setNavBar } = useContext(NavContext);
   const classes = useStyles();
   const fetchPosts = async () => {
     try {
@@ -43,6 +46,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setNavBar(NavCam);
     fetchPosts();
   }, []);
   return posts ? (

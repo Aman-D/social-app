@@ -107,16 +107,19 @@ router.get("/following/list", verify, async (req, res) => {
 
 router.get("/count", verify, async (req, res) => {
   try {
-    const followers = await Followers.findOne({ user: req.user }).count();
-    const following = await Following.findOne({ user: req.user }).count();
+    const followers = await Followers.findOne({ user: req.user });
+
+    const following = await Following.findOne({ user: req.user });
+    console.log();
     res.status(200).json({
       data: {
         type: "success",
-        followers,
-        following,
+        followers: followers ? followers.followers.length : 0,
+        following: following ? following.following.length : 0,
       },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       data: {
         type: "error",

@@ -7,6 +7,7 @@ import UserProvider from "./context-provider/user";
 import ToastProvider from "./context-provider/toast";
 import GlobalModalProvider from "./context-provider/global-modal";
 import NavBarProvider from "./context-provider/navBar";
+import CameraProvider from "./context-provider/camera";
 import { BrowserRouter as Router } from "react-router-dom";
 import MainApp from "./MainApp";
 function App() {
@@ -15,11 +16,13 @@ function App() {
       <ThemeProvider theme={theme}>
         <UserProvider>
           <ToastProvider>
-            <NavBarProvider>
+            <CameraProvider>
               <GlobalModalProvider>
-                <MainApp />
+                <NavBarProvider>
+                  <MainApp />
+                </NavBarProvider>
               </GlobalModalProvider>
-            </NavBarProvider>
+            </CameraProvider>
           </ToastProvider>
         </UserProvider>
       </ThemeProvider>
