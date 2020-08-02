@@ -1,16 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSearchBox } from "../components/index";
 import { NavContext } from "../context-provider/navBar";
-import {
-  Typography,
-  Grid,
-  makeStyles,
-  Avatar,
-  Paper,
-  Button,
-  GridList,
-  GridListTile,
-} from "@material-ui/core";
+import { Typography, Grid, makeStyles, Button } from "@material-ui/core";
 import { url } from "../helper/urls";
 import { ToastContext } from "../context-provider/toast";
 import { Spinner } from "../components/index";
@@ -35,7 +26,6 @@ const useStyles = makeStyles((theme) => {
 const Find = () => {
   const classes = useStyles();
   const [searchQuery, SearchBox] = useSearchBox("car");
-  const [searching, toggleSearching] = useState(false);
   const { setNavBar } = useContext(NavContext);
   const { toast } = useContext(ToastContext);
   const [recUsers, setRecUsers] = useState([]);
@@ -100,19 +90,25 @@ const Find = () => {
   }, []);
   return (
     <Grid container>
-      <Grid item xs={12}>
+      <Grid
+        item
+        container
+        xs={12}
+        style={{ flexDirection: "column", justifyContent: "center" }}
+      >
         <Typography className={classes.intro}>
           Search for your friends, influencer, loved ones and stay connected.
-          <Button
-            size="small"
-            variant="contained"
-            color="inherit"
-            className={classes.searchButton}
-            onClick={handleSubmit}
-          >
-            Search
-          </Button>
         </Typography>
+        <Button
+          size="small"
+          variant="contained"
+          color="inherit"
+          className={classes.searchButton}
+          onClick={handleSubmit}
+        >
+          {" "}
+          Search
+        </Button>
       </Grid>
       {searchUser === null ? (
         ""

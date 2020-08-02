@@ -19,7 +19,6 @@ class Camera {
       { css: "blur(10px)", title: "Blur" },
       { css: "contrast(150%)", title: "Contrast" },
     ];
-    console.log("Fired");
   }
 
   file = () => {
@@ -39,14 +38,20 @@ class Camera {
   };
 
   getStream = async () => {
-    this.stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: {
-        facingMode: "user",
-      },
-    });
-    this.videoBox.srcObject = this.stream;
-    this.videoBox.play();
+    try {
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "user",
+        },
+      });
+      this.videoBox.srcObject = this.stream;
+      this.videoBox.play();
+    } catch (error) {
+      if (error.name === "NotAllowedError") {
+        console.log(error);
+      }
+    }
   };
 
   setUp = async () => {

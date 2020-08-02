@@ -97,8 +97,8 @@ const NewPost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!post.description) {
-      toast({ type: "error", message: "Post can't be blank" });
+    if (!post.description || !post.postImage) {
+      toast({ type: "error", message: "Kuch to bhar le bhaie" });
       return;
     }
     try {

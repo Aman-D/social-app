@@ -5,12 +5,13 @@ import { Spinner } from "../components/index";
 import { CameraContext } from "../context-provider/camera";
 import { ToastContext } from "../context-provider/toast";
 import { UserContext } from "../context-provider/user";
-
+import { ModalContext } from "../context-provider/global-modal";
 import userActionTypes from "../action-type/user";
 
 const CamToolBar = ({ capture, captured, setCaptured, newPost }) => {
   const classes = useStyles();
   const [description, setDesc] = useState("");
+
   return (
     <Grid
       item
@@ -77,13 +78,17 @@ const CamToolBar = ({ capture, captured, setCaptured, newPost }) => {
 };
 
 const CameraScreen = () => {
-  const { camera, cleanUp } = useContext(CameraContext);
+  const { camera } = useContext(CameraContext);
   const filters = camera.filterList;
   const classes = useStyles();
   const [captured, setCaptured] = useState(false);
   const { toast } = useContext(ToastContext);
   const { dispatch } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+
+  /**
+   * For filter
+   */
   // const [tabIndex, setIndex] = useState(0);
 
   // const next = () => {
@@ -107,6 +112,9 @@ const CameraScreen = () => {
     };
   }, []);
 
+  /**
+   * For filter
+   */
   // useEffect(() => {
   //   camera.applyFilter(tabIndex);
   // }, [tabIndex]);
@@ -162,14 +170,21 @@ const CameraScreen = () => {
         id="video"
         style={{ width: "100%", objectFit: "cover" }}
         className={!captured ? "" : classes.display}
-      ></video>
+      >
+        {" "}
+        Camera Loading
+      </video>
       <img
         id="capturedImage"
         style={{ width: "100%", objectFit: "cover" }}
         className={captured ? "" : classes.display}
       ></img>
       <canvas id="canvas" style={{ zIndex: -1 }}></canvas>
-      {/* <Grid item container justify="center" align="center">
+
+      {/**
+       * For filter
+       */
+      /* <Grid item container justify="center" align="center">
     <Grid item xs={3}>
       <IconButton
         color="primary"

@@ -40,7 +40,7 @@ const Post = ({
     description,
     likes,
     postImage,
-    postedBy: { username },
+    postedBy: { username, image },
     datePosted,
   },
 }) => {
@@ -50,9 +50,17 @@ const Post = ({
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            {username[0]}
-          </Avatar>
+          image ? (
+            <Avatar
+              aria-label="recipe"
+              src={image}
+              className={classes.avatar}
+            />
+          ) : (
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {username[0]}
+            </Avatar>
+          )
         }
         title={username}
         subheader={moment(datePosted).format("dddd Do MMMM, YYYY")}
