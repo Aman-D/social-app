@@ -51,8 +51,9 @@ router.post("/new", verify, async (req, res) => {
  */
 router.get("/all", verify, async (req, res) => {
   const posts = await Post.find({})
-    .populate("postedBy", "_id username")
-    .sort({ datePosted: -1 })
+    .populate("postedBy", "_id username image")
+    .sort({ _id: -1 })
+
     .catch((err) => {
       return res.status(500).json({
         data: {

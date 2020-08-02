@@ -83,7 +83,7 @@ router.post("/login", async (req, res) => {
         const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET);
         const posts = await Post.find({ postedBy: user._id })
           .populate("postedBy")
-          .sort({ datePosted: -1 });
+          .sort({ _id: -1 });
 
         return res.status(200).json({
           data: {
