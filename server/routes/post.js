@@ -4,7 +4,7 @@ const router = express.Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
 const PostLike = require("../models/PostLike");
-
+const UserLikedPost = require("../models/UserLikedPost");
 const upload = require("../config/multer");
 const verify = require("../middlewares/verify");
 const { cloudinary_upload } = require("../config/cloudinary");
@@ -61,26 +61,33 @@ router.post("/new", verify, async (req, res) => {
  * @route /post/all
  */
 router.get("/all", verify, async (req, res) => {
-  const posts = await Post.find({})
-    .populate("postedBy", "_id username image")
-    .sort({ _id: -1 })
+  try {
+    // getting all the post which has already beign liked by the user
+    let likedPosts = await UserLikedPost.findOne({ user: req.user }).select(
+      "posts.post"
+    );
+    likedPosts = likedPosts ? likedPosts.posts.map(({ post }) => post) : [];
 
-    .catch((err) => {
-      return res.status(500).json({
-        data: {
-          type: "error",
-          message: "Internal server error",
-        },
-      });
+    const posts = await Post.find({ _id: { $nin: likedPosts } })
+      .populate("postedBy", "_id username image")
+      .sort({ _id: -1 });
+
+    res.json({
+      data: {
+        type: "success",
+        message: "All the post",
+        posts,
+      },
     });
-
-  res.json({
-    data: {
-      type: "success",
-      message: "All the post",
-      posts,
-    },
-  });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      data: {
+        type: "error",
+        message: "Internal server error",
+      },
+    });
+  }
 });
 
 /**
@@ -133,6 +140,12 @@ router.post("/like/:id", verify, async (req, res) => {
         { _id: mongo.ObjectId(req.params.id) },
         { $inc: { likes: -1 } }
       );
+
+      await UserLikedPost.updateOne(
+        { user: req.user },
+        { $pull: { posts: { post: mongo.ObjectId(req.params.id) } } },
+        { upsert: true }
+      );
     } else {
       await PostLike.updateOne(
         { post: req.params.id },
@@ -144,6 +157,12 @@ router.post("/like/:id", verify, async (req, res) => {
         { _id: mongo.ObjectId(req.params.id) },
         { $inc: { likes: 1 } }
       );
+
+      await UserLikedPost.updateOne(
+        { user: req.user },
+        { $addToSet: { posts: { post: mongo.ObjectId(req.params.id) } } },
+        { upsert: true }
+      );
     }
 
     res.status(200).json({
@@ -152,6 +171,7 @@ router.post("/like/:id", verify, async (req, res) => {
       },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       data: {
         type: "error",
