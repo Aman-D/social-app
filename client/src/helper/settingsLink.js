@@ -8,6 +8,10 @@ export const settingLinks = [
     path: "/settings/about",
   },
   {
+    title: "Liked Posts",
+    path: "/settings/liked-posts",
+  },
+  {
     title: "Logout",
     path: "/auth/logout",
   },

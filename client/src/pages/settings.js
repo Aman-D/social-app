@@ -4,6 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { settingLinks } from "../helper/settingsLink";
 import { ArrowRight } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { LikedPosts } from "../components/index";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -31,11 +34,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Settings = () => {
+const Options = () => {
   const classes = useStyles();
   const history = useHistory();
   return (
-    <div className={classes.root}>
+    <>
       <Grid item xs={12}>
         <Paper className={classes.paper}>
           <Typography variant="h2">Social App</Typography>
@@ -58,6 +61,19 @@ const Settings = () => {
           </Paper>
         ))}
       </Grid>
+    </>
+  );
+};
+
+const Settings = () => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <Switch>
+        <Route to="/liked-posts" component={LikedPosts} />
+        <Route to="/" component={Options} />
+      </Switch>
     </div>
   );
 };

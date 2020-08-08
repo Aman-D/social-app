@@ -14,3 +14,4 @@ export { default as UserCard } from "./user-card";
 export { default as NavCam } from "./nav-cam";
 export { default as FaceCam } from "./faceCam";
 export { default as CameraScreen } from "./camera-screen";
+export { default as LikedPosts } from "./likedPosts";

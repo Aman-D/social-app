@@ -91,6 +91,39 @@ router.get("/all", verify, async (req, res) => {
 });
 
 /**
+ * @description Get all the liked posts by the current user
+ * @route /post/likedPosts
+ */
+router.get("/liked-posts", verify, async (req, res) => {
+  try {
+    var posts = await UserLikedPost.find({ user: req.user })
+      .populate({
+        path: "posts.post",
+        populate: { path: "post.postedBy" },
+      })
+
+      .select("posts.post");
+
+    posts = posts[0].posts.map(({ post }) => post);
+    res.status(200).json({
+      data: {
+        type: "success",
+        message: "All the post",
+        posts,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      data: {
+        type: "error",
+        message: "Internal server error",
+      },
+    });
+  }
+});
+
+/**
  * @description Get single post
  * @route /post/:id
  */
